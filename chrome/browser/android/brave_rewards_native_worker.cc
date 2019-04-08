@@ -345,7 +345,9 @@ void BraveRewardsNativeWorker::GetPendingContributionsTotal(JNIEnv* env,
 void BraveRewardsNativeWorker::GetRecurringDonations(JNIEnv* env, 
         const base::android::JavaParamRef<jobject>& obj) {
   if (brave_rewards_service_) {
-    brave_rewards_service_->UpdateRecurringDonationsList();
+    brave_rewards_service_->GetRecurringTipsUI(base::BindOnce(
+          &BraveRewardsNativeWorker::OnGetRecurringTips,
+          weak_factory_.GetWeakPtr()));
   }
 }
 
@@ -419,7 +421,7 @@ double BraveRewardsNativeWorker::GetPublisherRecurrentDonationAmount(JNIEnv* env
 void BraveRewardsNativeWorker::RemoveRecurring(JNIEnv* env, const base::android::JavaParamRef<jobject>& obj,
     const base::android::JavaParamRef<jstring>& publisher){
   if (brave_rewards_service_) {
-      brave_rewards_service_->RemoveRecurring(base::android::ConvertJavaStringToUTF8(env, publisher));
+      brave_rewards_service_->RemoveRecurringTip(base::android::ConvertJavaStringToUTF8(env, publisher));
   }
 }
 
@@ -502,11 +504,16 @@ void BraveRewardsNativeWorker::OnGrantFinish(brave_rewards::RewardsService* rewa
         weak_java_brave_rewards_native_worker_.get(env), result);
 }
 
-void BraveRewardsNativeWorker::OnRecurringDonationUpdated(
-      brave_rewards::RewardsService* rewards_service, brave_rewards::ContentSiteList list) {
+//void BraveRewardsNativeWorker::OnRecurringDonationUpdated(
+//      brave_rewards::RewardsService* rewards_service, brave_rewards::ContentSiteList list) {
+void BraveRewardsNativeWorker::OnGetRecurringTips(
+        std::unique_ptr<brave_rewards::ContentSiteList> list) {
+  if (!list) {
+    return;
+  }
   map_recurrent_publishers_.clear();
-  for (size_t i = 0; i < list.size(); i++) {
-    map_recurrent_publishers_[list[i].id] = list[i];
+  for (size_t i = 0; i < list->size(); i++) {
+    map_recurrent_publishers_[(*list)[i].id] = (*list)[i];
   }
 
   JNIEnv* env = base::android::AttachCurrentThread();
