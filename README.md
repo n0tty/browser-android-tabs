@@ -13,15 +13,15 @@
 - npm
       NPM install instructions for Ubuntu 18.04 (to avoid libssl-dev and libssl1.0-dev conflict, we need to install npm version 6.9.0. installation of npm from aptitude repository is likely to result in conflict and failure to build)
 
-      `sudo apt-get install git curl build-essential openssl libssl-dev`
+      sudo apt-get install git curl build-essential openssl libssl-dev
 
-      `curl -L https://npmjs.org/install.sh | sudo sh`
+      curl -L https://npmjs.org/install.sh | sudo sh
 
-      `npm -v`
+      npm -v
 
-      `sudo chown -R $USER:$(id -gn $USER) /home/osboxes/.npm`
+      sudo chown -R $USER:$(id -gn $USER) /home/osboxes/.npm
 
-      `sudo chown -R $USER:$(id -gn $USER) /home/osboxes/.config`
+      sudo chown -R $USER:$(id -gn $USER) /home/osboxes/.config
 
 
 ### Preparing the Build Environment
