@@ -10,8 +10,9 @@
 - [ninja](https://ninja-build.org/)
 
 
-- npm
-      NPM install instructions for Ubuntu 18.04 (to avoid libssl-dev and libssl1.0-dev conflict, we need to install npm version 6.9.0. installation of npm from aptitude repository is likely to result in conflict and failure to build)
+- npm:
+
+  **NPM install instructions for Ubuntu 18.04** (to avoid libssl-dev and libssl1.0-dev conflict, we need to install npm version 6.9.0. installation of npm from aptitude repository is likely to result in conflict and failure to build)
 
       sudo apt-get install git curl build-essential openssl libssl-dev
 
